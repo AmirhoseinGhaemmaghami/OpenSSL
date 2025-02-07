@@ -1,0 +1,13 @@
+openssl req
+This command deals with generating and managing certificate signing requests (CSRs). CSRs are used to request digital certificates from a certificate authority (CA).
+
+Key Options:
+
+openssl req -new -newkey rsa:2048 -nodes -keyout mykey.key -out mycsr.pem
+Generates a private key and a CSR file simultaneously.
+-x509 option: If added, this can generate a self-signed certificate instead of a CSR.
+Use Case:
+Use this when you want to request an SSL/TLS certificate or create self-signed certificates for testing.
+
+example:
+openssl req -newkey rsa:4096 -nodes -keyout posapp-key.pem -out posapp-req.pem -subj "/CN=POS App/O=World Vision Australia"
