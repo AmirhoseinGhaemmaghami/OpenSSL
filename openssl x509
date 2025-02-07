@@ -1,0 +1,86 @@
+Common Uses of openssl x509
+1. Viewing Certificate Information
+You can view details of an SSL/TLS certificate, including its subject, issuer, validity dates, extensions, and public key information.
+
+Command:
+
+bash
+Copy
+Edit
+openssl x509 -in certificate.crt -text -noout
+-in certificate.crt: Specifies the certificate file to read.
+-text: Displays the contents of the certificate in a human-readable format.
+-noout: Suppresses the output of the encoded version of the certificate.
+Sample Output:
+
+plaintext
+Copy
+Edit
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4096 (0x1000)
+    Signature Algorithm: sha256WithRSAEncryption
+    Issuer: C=US, O=Let's Encrypt, CN=R3
+    Validity
+        Not Before: Feb 7 00:00:00 2023 GMT
+        Not After : May 8 00:00:00 2023 GMT
+    Subject: CN=example.com
+2. Converting Certificates Between Formats
+Certificates may need to be converted between PEM, DER, or PFX formats.
+
+PEM (Privacy Enhanced Mail): Base64-encoded, readable format with -----BEGIN CERTIFICATE-----.
+DER (Distinguished Encoding Rules): Binary format.
+PFX (PKCS#12): Container format for certificates and keys.
+Convert from PEM to DER:
+
+bash
+Copy
+Edit
+openssl x509 -in certificate.pem -outform DER -out certificate.der
+Convert from DER to PEM:
+
+bash
+Copy
+Edit
+openssl x509 -in certificate.der -inform DER -out certificate.pem -outform PEM
+3. Verifying Certificate Chains
+You can use openssl x509 to verify if a certificate was signed by a trusted Certificate Authority (CA).
+
+Command:
+
+bash
+Copy
+Edit
+openssl x509 -in certificate.crt -noout -issuer -subject
+This displays the issuer (who signed the certificate) and the subject (to whom the certificate belongs).
+
+4. Extracting the Public Key
+You can extract the public key from a certificate for use in encryption or verification.
+
+Command:
+
+bash
+Copy
+Edit
+openssl x509 -in certificate.crt -pubkey -noout
+5. Self-Signing a Certificate
+If you want to create a self-signed certificate for testing purposes, you can use openssl req to generate the request and openssl x509 to sign it.
+
+Command:
+
+bash
+Copy
+Edit
+openssl req -newkey rsa:2048 -keyout selfsigned.key -out request.csr
+openssl x509 -signkey selfsigned.key -in request.csr -req -days 365 -out selfsigned.crt
+Summary of Common Options:
+Option	Description
+-in	Specifies the input certificate file.
+-text	Displays the certificate’s details in a human-readable format.
+-noout	Suppresses the encoded version of the certificate in output.
+-issuer	Displays the certificate issuer information.
+-subject	Displays the subject information (the certificate holder).
+-pubkey	Extracts and displays the public key.
+-outform DER	Converts the certificate to DER format.
+Let me know if you want an example for a specific use case like creating a test certificate or verifying server certificates! 😊
